@@ -5,8 +5,11 @@ const { stdin: input, stdout: output } = require('node:process');
 // Create an interface where we can talk to the user
 const rl = readline.createInterface({ input, output });
 
-// Declare secretNumber variable to be assigned to random number later
+// Initialize secretNumber variable to be assigned to random number later
 let secretNumber;
+
+// Initialize variable to limit user attempts
+let numAttempts = 5;
 
 // Check user guess
 const checkGuess = (num) => {
@@ -25,16 +28,34 @@ const checkGuess = (num) => {
 };
 
 // Ask user to guess and check against secretNumber
+// const askGuess = () => {
+//   rl.question("Enter a guess: ", (answer) => {
+//     console.log(`You guessed: ${answer}`);
+//     let result = checkGuess(Number(answer));
+
+//     if (result === true) {
+//       console.log("You win!");
+//       rl.close();
+//     } else {
+//         askGuess();
+//     }
+//   });
+// };
+
 const askGuess = () => {
   rl.question("Enter a guess: ", (answer) => {
+    numAttempts--;
     console.log(`You guessed: ${answer}`);
     let result = checkGuess(Number(answer));
 
     if (result === true) {
-      console.log("You win!");
+      console.log("You WIN!");
+      rl.close();
+    } else if (result === false && numAttempts === 0) {
+      console.log("You LOSE!");
       rl.close();
     } else {
-        askGuess();
+      askGuess();
     }
   });
 };
