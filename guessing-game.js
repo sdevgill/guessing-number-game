@@ -7,7 +7,7 @@ const rl = readline.createInterface({ input, output });
 
 // Custom Code
 
-let secretNumber = 42;
+let secretNumber;
 
 const checkGuess = (num) => {
   if (num > secretNumber) {
@@ -37,5 +37,18 @@ const askGuess = () => {
     }
   });
 };
+
+const randomInRange = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  // The max and min are inclusive
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+// console.log(randomInRange(15, 20)); // 16
+// console.log(randomInRange(15, 20)); // 17
+// console.log(randomInRange(15, 20)); // 20
+
+secretNumber = randomInRange(0, 100);
 
 askGuess();
