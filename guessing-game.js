@@ -5,39 +5,41 @@ const { stdin: input, stdout: output } = require('node:process');
 // Create an interface where we can talk to the user
 const rl = readline.createInterface({ input, output });
 
-// Custom Code
-
+// Declare secretNumber variable to be assigned to random number later
 let secretNumber;
 
+// Check user guess
 const checkGuess = (num) => {
   if (num > secretNumber) {
     console.log("Too high.");
     return false;
   } else if (num < secretNumber) {
-    console.log("Too low.");
-    return false;
+      console.log("Too low.");
+      return false;
+  } else if (num === secretNumber) {
+      console.log("Correct!");
+      return true;
   } else {
-    console.log("Correct!");
-    return true;
+      return false;
   }
 };
 
+// Ask user to guess and check against secretNumber
 const askGuess = () => {
   rl.question("Enter a guess: ", (answer) => {
     console.log(`You guessed: ${answer}`);
-    let numAnswer = Number(answer);
-
-    let result = checkGuess(numAnswer);
+    let result = checkGuess(Number(answer));
 
     if (result === true) {
       console.log("You win!");
       rl.close();
     } else {
-      askGuess();
+        askGuess();
     }
   });
 };
 
+// Generate random integer between min and max
 const randomInRange = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -45,22 +47,14 @@ const randomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-// console.log(randomInRange(15, 20)); // 16
-// console.log(randomInRange(15, 20)); // 17
-// console.log(randomInRange(15, 20)); // 20
-
-// secretNumber = randomInRange(0, 100);
-
-// askGuess();
-
+// Ask user for min and max numbers to send them to randomInRange
+// Assign secretNumber to the result
+// Call askGuess() to initialize game
 const askRange = () => {
-  rl.question("Enter a min number: ", (minNum) => {
-    minNum = Number(minNum);
-
-    rl.question("Enter a max number: ", (maxNum) => {
-      maxNum = Number(maxNum);
-      console.log(`I'm thinking of a number between ${minNum} and ${maxNum}...`);
-      secretNumber = randomInRange(minNum, maxNum);
+  rl.question("Enter a min number: ", (min) => {
+    rl.question("Enter a max number: ", (max) => {
+      console.log(`I'm thinking of a number between ${min} and ${max}...`);
+      secretNumber = randomInRange(Number(min), Number(max));
       console.log(secretNumber); // Cheat to immediately print the guess
       // rl.close(); Not needed as it is called inside askGuess();
       askGuess();
