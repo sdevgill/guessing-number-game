@@ -49,7 +49,7 @@ const randomInRange = (min, max) => {
 // console.log(randomInRange(15, 20)); // 17
 // console.log(randomInRange(15, 20)); // 20
 
-secretNumber = randomInRange(0, 100);
+// secretNumber = randomInRange(0, 100);
 
 // askGuess();
 
@@ -60,7 +60,10 @@ const askRange = () => {
     rl.question("Enter a max number: ", (maxNum) => {
       maxNum = Number(maxNum);
       console.log(`I'm thinking of a number between ${minNum} and ${maxNum}...`);
-      rl.close();
+      secretNumber = randomInRange(minNum, maxNum);
+      console.log(secretNumber); // Cheat to immediately print the guess
+      // rl.close(); Not needed as it is called inside askGuess();
+      askGuess();
     });
   });
 };
