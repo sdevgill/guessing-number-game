@@ -9,15 +9,17 @@ const rl = readline.createInterface({ input, output });
 let secretNumber;
 
 // Initialize variable to limit user attempts
-let numAttempts = 5;
+let numAttempts;
 
 // Check user guess
 const checkGuess = (num) => {
   if (num > secretNumber) {
     console.log("Too high.");
+    console.log(`You have ${numAttempts} guesses left.`);
     return false;
   } else if (num < secretNumber) {
       console.log("Too low.");
+      console.log(`You have ${numAttempts} guesses left.`);
       return false;
   } else if (num === secretNumber) {
       console.log("Correct!");
@@ -28,20 +30,6 @@ const checkGuess = (num) => {
 };
 
 // Ask user to guess and check against secretNumber
-// const askGuess = () => {
-//   rl.question("Enter a guess: ", (answer) => {
-//     console.log(`You guessed: ${answer}`);
-//     let result = checkGuess(Number(answer));
-
-//     if (result === true) {
-//       console.log("You win!");
-//       rl.close();
-//     } else {
-//         askGuess();
-//     }
-//   });
-// };
-
 const askGuess = () => {
   rl.question("Enter a guess: ", (answer) => {
     numAttempts--;
@@ -53,6 +41,7 @@ const askGuess = () => {
       rl.close();
     } else if (result === false && numAttempts === 0) {
       console.log("You LOSE!");
+      console.log(`The secret number was ${secretNumber}`);
       rl.close();
     } else {
       askGuess();
@@ -83,4 +72,13 @@ const askRange = () => {
   });
 };
 
-askRange();
+// Limit turns dynamically
+const askLimit = () => {
+  rl.question("Enter max number of guesses allowed: ", (max) => {
+    console.log(`You entered ${max} max guesses`);
+    numAttempts = Number(max);
+    askRange();
+  });
+}
+
+askLimit();
