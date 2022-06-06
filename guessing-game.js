@@ -5,14 +5,7 @@ const { stdin: input, stdout: output } = require('node:process');
 // Create an interface where we can talk to the user
 const rl = readline.createInterface({ input, output });
 
-// Ask user a question
-rl.question('What do you think of Node.js? ', (answer) => {
-  // Log their answer
-  console.log(`Thank you for your valuable feedback: ${answer}`);
-  // Close the interface
-  rl.close();
-});
-
+// Custom Code
 
 let secretNumber = 42;
 
@@ -28,3 +21,21 @@ const checkGuess = (num) => {
     return true;
   }
 };
+
+const askGuess = () => {
+  rl.question("Enter a guess: ", (answer) => {
+    console.log(`You guessed: ${answer}`);
+    let numAnswer = Number(answer);
+
+    let result = checkGuess(numAnswer);
+
+    if (result === true) {
+      console.log("You win!");
+      rl.close();
+    } else {
+      askGuess();
+    }
+  });
+};
+
+askGuess();
